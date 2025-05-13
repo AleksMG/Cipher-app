@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Универсальный шифратор</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+        
+        .description {
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        select:focus, input:focus, textarea:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(72, 149, 239, 0.2);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-encrypt {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-decrypt {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-clear {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            border: 1px solid #ced4da;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-encrypt:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-decrypt:hover {
+            background-color: #3aa8d8;
+        }
+        
+        .btn-clear:hover {
+            background-color: #e9ecef;
+        }
+        
+        .info {
+            font-size: 14px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        .copy-btn {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            border: 1px solid #ced4da;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        
+        .copy-btn:hover {
+            background-color: #e9ecef;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 Универсальный шифратор</h1>
+            <p class="description">Шифрование и дешифрование текста с использованием алфавитного ключа</p>
+        </header>
+        
+        <div class="card">
+            <div class="form-group">
+                <label for="language">Язык алфавита:</label>
+                <select id="language">
+                    <option value="russian">Русский</option>
+                    <option value="english">Английский</option>
+                    <option value="german">Немецкий</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="text">Текст:</label>
+                <textarea id="text" placeholder="Введите текст для шифрования или зашифрованные числа для дешифрования..."></textarea>
+                <p class="info">При шифровании будут удалены все пробелы и небуквенные символы</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="key">Ключ:</label>
+                <input id="key" placeholder="Введите ключ (только буквы выбранного алфавита)">
+                <p class="info">Ключ должен содержать только буквы выбранного алфавита</p>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn-encrypt" onclick="encrypt()">Шифровать</button>
+                <button class="btn-decrypt" onclick="decrypt()">Дешифровать</button>
+                <button class="btn-clear" onclick="clearAll()">Очистить</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="form-group">
+                <label for="result">Результат:</label>
+                <textarea id="result" readonly></textarea>
+                <button class="copy-btn" onclick="copyResult()">Копировать результат</button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Универсальный шифратор &copy; 2023 | Все права защищены</p>
+        </footer>
+    </div>
+
+    <script>
+        const alphabets = {
+            russian: 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ',
+            english: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+            german: 'ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜß'
+        };
+        
+        let currentAlphabet = alphabets.russian;
+        
+        document.getElementById('language').addEventListener('change', function() {
+            currentAlphabet = alphabets[this.value];
+        });
+        
+        function prepareKey(key) {
+            const cleanKey = key.toUpperCase().split('').filter(c => currentAlphabet.includes(c)).join('');
+            if (!cleanKey) {
+                alert('Ключ должен содержать только буквы выбранного алфавита!');
+                return null;
+            }
+            
+            const keyDigits = [];
+            for (let i = 0; i < cleanKey.length; i++) {
+                keyDigits.push(currentAlphabet.indexOf(cleanKey[i]) + 1);
+            }
+            return keyDigits;
+        }
+        
+        function cleanText(text) {
+            return text.toUpperCase().split('').filter(c => currentAlphabet.includes(c)).join('');
+        }
+        
+        function encrypt() {
+            const text = document.getElementById('text').value;
+            const key = document.getElementById('key').value;
+            
+            const cleanedText = cleanText(text);
+            if (!cleanedText) {
+                alert('Текст должен содержать буквы выбранного алфавита!');
+                return;
+            }
+            
+            const keyDigits = prepareKey(key);
+            if (!keyDigits) return;
+            
+            let result = '';
+            for (let i = 0; i < cleanedText.length; i++) {
+                const pos = currentAlphabet.indexOf(cleanedText[i]);
+                const k = keyDigits[i % keyDigits.length];
+                const code = (pos + 1) * k;
+                result += code.toString().padStart(3, '0') + ' ';
+            }
+            
+            document.getElementById('result').value = result.trim();
+        }
+        
+        function decrypt() {
+            const text = document.getElementById('text').value.trim();
+            const key = document.getElementById('key').value;
+            
+            if (!text.match(/^(\d{3}\s*)+$/)) {
+                alert('Зашифрованный текст должен состоять из 3-значных чисел, разделенных пробелами!');
+                return;
+            }
+            
+            const keyDigits = prepareKey(key);
+            if (!keyDigits) return;
+            
+            const numbers = text.split(/\s+/);
+            let result = '';
+            
+            for (let i = 0; i < numbers.length; i++) {
+                const num = parseInt(numbers[i], 10);
+                const k = keyDigits[i % keyDigits.length];
+                
+                if (num % k !== 0) {
+                    alert(`Ошибка: число ${num} не делится на ключ ${k}!`);
+                    return;
+                }
+                
+                const p = num / k;
+                if (p < 1 || p > currentAlphabet.length) {
+                    alert(`Ошибка: позиция ${p} вне диапазона алфавита!`);
+                    return;
+                }
+                
+                result += currentAlphabet[p - 1];
+            }
+            
+            document.getElementById('result').value = result;
+        }
+        
+        function clearAll() {
+            document.getElementById('text').value = '';
+            document.getElementById('key').value = '';
+            document.getElementById('result').value = '';
+        }
+        
+        function copyResult() {
+            const result = document.getElementById('result');
+            result.select();
+            document.execCommand('copy');
+            
+            // Визуальная обратная связь
+            const copyBtn = document.querySelector('.copy-btn');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = 'Скопировано!';
+            copyBtn.style.backgroundColor = '#4caf50';
+            copyBtn.style.color = 'white';
+            
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+                copyBtn.style.backgroundColor = '';
+                copyBtn.style.color = '';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
